@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace BlogApi.Models;
 
@@ -12,6 +13,5 @@ public partial class Blogger
     public string? Password { get; set; }
 
     public string? Email { get; set; }
-
     public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
 }

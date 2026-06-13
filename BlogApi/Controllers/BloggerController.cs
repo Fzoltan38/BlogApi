@@ -124,5 +124,61 @@ namespace BlogApi.Controllers
                 return StatusCode(400, new { message = ex.Message });
             }
         }
+
+        [HttpGet("getAllBloggerData")]
+        public async Task<ActionResult> GetAllBloggerData(int id)
+        {
+            try
+            {
+                var bloggerData = await _blogContext.Bloggers
+                    .Include(x => x.Posts)
+                    .Where(x => x.Id == id)
+                    .ToListAsync();
+
+
+
+                if(bloggerData != null)
+                {
+                    return Ok(new { message = "Sikeres lekérdezés", result = bloggerData });
+                }
+
+                return StatusCode(404, new { message = "Sikertelen felvétel.", result = bloggerData });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(400, new { message = ex.Message });
+
+            }
+        }
+
+        [HttpGet("bloggerNameAndPostContent")]
+        public async Task<ActionResult> BloggerNameAndPostContent(int id)
+        {
+            try
+            {
+                var bloggerData = await _blogContext.Bloggers
+                    .Where(x => x.Id == id)
+                    .Select(x => new
+                    {
+                        BloggerName = x.UserName,
+                        Posts = x.Posts.Select(p => new { p.Content })
+                    })
+                    .FirstOrDefaultAsync();
+
+                if (bloggerData != null)
+                {
+                    return Ok(new { message = "Sikeres lekérdezés", result = bloggerData });
+                }
+
+                return StatusCode(404, new { message = "Nincs találat.", result = bloggerData });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(400, new { message = ex.Message });
+
+            }
+        }
     }
 }
