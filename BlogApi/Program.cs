@@ -1,4 +1,6 @@
 
+using Scalar.AspNetCore;
+
 namespace BlogApi
 {
     public class Program
@@ -19,6 +21,8 @@ namespace BlogApi
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
+                app.MapScalarApiReference();
+
             }
 
             app.UseHttpsRedirection();
