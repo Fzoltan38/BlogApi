@@ -6,10 +6,6 @@ namespace BlogApi.Models;
 
 public partial class BlogContext : DbContext
 {
-    public BlogContext()
-    {
-    }
-
     public BlogContext(DbContextOptions<BlogContext> options)
         : base(options)
     {
@@ -18,10 +14,6 @@ public partial class BlogContext : DbContext
     public virtual DbSet<Blogger> Bloggers { get; set; }
 
     public virtual DbSet<Post> Posts { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySQL("server=localhost;database=blog;user=root;password=");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

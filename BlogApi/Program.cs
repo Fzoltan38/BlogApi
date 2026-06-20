@@ -1,5 +1,6 @@
 
 using BlogApi.Models;
+using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
 namespace BlogApi
@@ -9,8 +10,18 @@ namespace BlogApi
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var conn = builder.Configuration.GetConnectionString("MySql");
 
-            builder.Services.AddDbContext<BlogContext>();
+            builder.Services.AddDbContext<BlogContext>(
+                    options => 
+                    {
+                        if(conn != null)
+                        {
+                            options.UseMySQL(conn);
+                        }
+                        
+                    }
+                );
 
             // Add services to the container.
 
